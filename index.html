@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>CDN Verification Lab</title>
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Segoe UI", Arial, sans-serif;
+            background: #f8f1e7;
+            color: #40372f;
+            min-height: 100vh;
+        }
+
+        header {
+            background: #344e41;
+            color: #fffaf2;
+            padding: 18px 8%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 20px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+
+        .status {
+            background: #e6a15c;
+            color: #4b321f;
+            padding: 8px 15px;
+            border-radius: 30px;
+            font-size: 11px;
+            font-weight: 700;
+        }
+
+        .container {
+            width: 88%;
+            max-width: 1100px;
+            margin: 42px auto;
+        }
+
+        .hero {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            background: #fffdf8;
+            border-radius: 22px;
+            overflow: hidden;
+            border: 1px solid #eadcca;
+            box-shadow:
+                0 15px 35px rgba(72, 57, 42, 0.10);
+            margin-bottom: 27px;
+        }
+
+        .hero-content {
+            padding: 52px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .small-title {
+            color: #a65d3b;
+            font-size: 12px;
+            font-weight: 800;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 15px;
+        }
+
+        .hero h1 {
+            color: #344e41;
+            font-size: 48px;
+            line-height: 1.05;
+            margin-bottom: 20px;
+        }
+
+        .hero p {
+            color: #6d6256;
+            font-size: 15px;
+            line-height: 1.8;
+            max-width: 500px;
+        }
+
+        .hero-image {
+            min-height: 350px;
+            background-image:
+                linear-gradient(
+                    rgba(52, 78, 65, 0.12),
+                    rgba(166, 93, 59, 0.18)
+                ),
+                url("https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=1200&q=85");
+            background-size: cover;
+            background-position: center;
+            position: relative;
+        }
+
+        .image-label {
+            position: absolute;
+            bottom: 25px;
+            left: 25px;
+            background: rgba(255, 253, 248, 0.94);
+            color: #344e41;
+            padding: 12px 17px;
+            border-radius: 10px;
+            font-size: 12px;
+            font-weight: 700;
+            box-shadow:
+                0 6px 15px rgba(50, 40, 30, 0.15);
+        }
+
+        .cards {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 27px;
+        }
+
+        .card {
+            background: #fffdf8;
+            border: 1px solid #eadcca;
+            border-radius: 18px;
+            padding: 29px;
+            box-shadow:
+                0 8px 25px rgba(72, 57, 42, 0.07);
+        }
+
+        .card h2 {
+            color: #344e41;
+            font-size: 19px;
+            margin-bottom: 22px;
+        }
+
+        .information {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            gap: 20px;
+            padding-bottom: 12px;
+            border-bottom:
+                1px solid #eee2d3;
+        }
+
+        .info-row:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+
+        .label {
+            color: #8a7865;
+            font-size: 13px;
+        }
+
+        .value {
+            color: #514437;
+            font-size: 13px;
+            font-weight: 700;
+            text-align: right;
+            max-width: 65%;
+            word-break: break-word;
+        }
+
+        .checklist {
+            display: flex;
+            flex-direction: column;
+            gap: 13px;
+        }
+
+        .check {
+            display: flex;
+            align-items: center;
+            gap: 13px;
+            padding: 14px;
+            background: #f7efe2;
+            border-radius: 12px;
+            color: #64584c;
+            font-size: 13px;
+        }
+
+        .check-number {
+            width: 32px;
+            height: 32px;
+            border-radius: 9px;
+            background: #d9a066;
+            color: #4e3423;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 11px;
+            font-weight: 800;
+            flex-shrink: 0;
+        }
+
+        .tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 20px;
+        }
+
+        .tag {
+            background: #edf2e8;
+            color: #4e684f;
+            border:
+                1px solid #c9d7c3;
+
+            padding: 7px 11px;
+            border-radius: 8px;
+            font-size: 11px;
+            font-weight: 700;
+        }
+
+        footer {
+            text-align: center;
+            padding: 30px 0 10px;
+            color: #927f6b;
+            font-size: 12px;
+        }
+
+        @media (max-width: 800px) {
+            .hero {
+                grid-template-columns: 1fr;
+            }
+
+            .hero-image {
+                min-height: 280px;
+            }
+
+            .cards {
+                grid-template-columns: 1fr;
+            }
+
+            .hero-content {
+                padding: 35px;
+            }
+
+            .hero h1 {
+                font-size: 39px;
+            }
+
+        }
+
+
+        @media (max-width: 500px) {
+            header {
+                padding: 16px 5%;
+            }
+
+            .container {
+                width: 92%;
+                margin: 25px auto;
+            }
+
+            .logo {
+                font-size: 16px;
+            }
+
+            .status {
+                font-size: 9px;
+                padding: 7px 10px;
+            }
+
+            .hero-content {
+                padding: 28px;
+            }
+
+            .hero h1 {
+
+                font-size: 34px;
+            }
+
+            .card {
+                padding: 22px;
+            }
+
+            .info-row {
+                flex-direction: column;
+                gap: 5px;
+            }
+
+            .value {
+                text-align: left;
+                max-width: 100%;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <!-- =========================
+         HEADER
+    ========================= -->
+
+    <header>
+
+        <div class="logo">
+            CDN Verification Lab
+        </div>
+
+
+        <div class="status">
+            ● LIVE DEPLOYMENT
+        </div>
+
+    </header>
+
+    <!-- =========================
+         MAIN CONTENT
+    ========================= -->
+
+    <main class="container">
+
+        <!-- =========================
+             HERO SECTION
+        ========================= -->
+
+        <section class="hero">
+
+            <!-- LEFT SIDE -->
+
+            <div class="hero-content">
+
+                <div class="small-title">
+                    Cloud Networking Activity
+                </div>
+
+                <h1>
+                    How CDN Works
+                </h1>
+
+                <p>
+
+                    A Content Delivery Network helps deliver
+                    website content through distributed servers
+                    located closer to users. This activity allows
+                    you to observe CDN behavior through deployment
+                    and HTTP response headers.
+
+                </p>
+
+            </div>
+
+            <!-- RIGHT SIDE IMAGE -->
+
+            <div class="hero-image">
+
+                <div class="image-label">
+
+                    Global Content Delivery
+
+                </div>
+
+            </div>
+
+        </section>
+
+        <!-- =========================
+             INFORMATION CARDS
+        ========================= -->
+
+        <section class="cards">
+
+            <!-- DEPLOYMENT INFORMATION -->
+
+            <div class="card">
+
+                <h2>
+                    Deployment Information
+                </h2>
+
+                <div class="information">
+
+
+                    <div class="info-row">
+
+                        <span class="label">
+                            Student Name
+                        </span>
+
+                        <span class="value">
+                            Joana Marie Guibao
+                        </span>
+
+                    </div>
+
+                    <div class="info-row">
+
+                        <span class="label">
+                            Student ID
+                        </span>
+
+                        <span class="value">
+                            2401324
+                        </span>
+
+                    </div>
+
+                    <div class="info-row">
+
+                        <span class="label">
+                            Deployment Time
+                        </span>
+
+                        <span
+                            class="value"
+                            id="timestamp">
+
+                            October 3, 2026
+
+                        </span>
+
+                    </div>
+
+                    <div class="info-row">
+
+                        <span class="label">
+                            Browser
+                        </span>
+
+                        <span
+                            class="value"
+                            id="browser">
+
+                            Loading...
+
+                        </span>
+
+                    </div>
+
+                    <div class="info-row">
+
+                        <span class="label">
+                            Viewport Size
+                        </span>
+
+                        <span
+                            class="value"
+                            id="viewport">
+
+                            Loading...
+
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- CDN CHECKLIST -->
+
+            <div class="card">
+
+                <h2>
+                    CDN Verification Checklist
+                </h2>
+
+                <div class="checklist">
+
+                    <div class="check">
+
+                        <span class="check-number">
+                            01
+                        </span>
+
+                        <span>
+                            Open Developer Tools
+                        </span>
+
+                    </div>
+
+                    <div class="check">
+
+                        <span class="check-number">
+                            02
+                        </span>
+
+                        <span>
+                            Select the Network tab
+                        </span>
+
+                    </div>
+
+                    <div class="check">
+
+                        <span class="check-number">
+                            03
+                        </span>
+
+                        <span>
+                            Refresh the website
+                        </span>
+
+                    </div>
+
+                    <div class="check">
+
+                        <span class="check-number">
+                            04
+                        </span>
+
+                        <span>
+                            Select the HTML request
+                        </span>
+
+                    </div>
+
+                    <div class="check">
+
+                        <span class="check-number">
+                            05
+                        </span>
+
+                        <span>
+                            Inspect Response Headers
+                        </span>
+
+                    </div>
+
+                </div>
+
+                <!-- CDN HEADER TAGS -->
+
+                <div class="tags">
+
+                    <span class="tag">
+                        Server
+                    </span>
+
+                    <span class="tag">
+                        Via
+                    </span>
+
+                    <span class="tag">
+                        Cache-Control
+                    </span>
+
+                    <span class="tag">
+                        Age
+                    </span>
+
+                </div>
+
+            </div>
+
+        </section>
+
+        <!-- =========================
+             FOOTER
+        ========================= -->
+
+        <footer>
+
+            CDN Verification Laboratory
+
+            <br>
+
+            Static Website Deployment Activity
+
+        </footer>
+
+    </main>
+
+    <!-- =========================
+         JAVASCRIPT
+    ========================= -->
+
+    <script>
+
+        function updateInformation() {
+
+
+            const currentTime = new Date();
+
+
+            const deploymentDate =
+                new Date(
+                    2026,
+                    9,
+                    3,
+                    currentTime.getHours(),
+                    currentTime.getMinutes(),
+                    currentTime.getSeconds()
+                );
+
+
+            document.getElementById(
+                "timestamp"
+            ).textContent =
+
+                deploymentDate.toLocaleString(
+                    "en-PH",
+                    {
+                        dateStyle: "long",
+                        timeStyle: "medium"
+                    }
+                );
+
+            document.getElementById(
+                "browser"
+            ).textContent =
+
+                navigator.userAgent;
+
+            document.getElementById(
+                "viewport"
+            ).textContent =
+
+                window.innerWidth +
+                " × " +
+                window.innerHeight +
+                " px";
+
+        }
+
+
+        updateInformation();
+
+        window.addEventListener(
+            "resize",
+            updateInformation
+        );
+
+    </script>
+
+</body>
+</html>
